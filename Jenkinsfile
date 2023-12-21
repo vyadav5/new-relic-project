@@ -45,7 +45,7 @@ pipeline {
                     terraform apply -auto-approve
                     sudo cp ${env.TERRAFORM_WORKSPACE}newrelic.pem ${env.ANSIBLE_WORKSPACE}playbook/newrelic.pem
                     sudo chown jenkins:jenkins ${env.ANSIBLE_WORKSPACE}playbook/newrelic.pem
-                    sudo chmod 400 ${env.ANSIBLE_WORKSPACE}/newrelic.pem
+                    sudo chmod 400 ${env.ANSIBLE_WORKSPACE}playbook/newrelic.pem
                 """       
             }
         }
