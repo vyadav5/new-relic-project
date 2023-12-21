@@ -4,7 +4,7 @@ pipeline {
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Select action: apply or destroy')
     }
     environment {
-        LICENSE_KEY = null
+        // LICENSE_KEY = null
         TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/terraform/"
         ANSIBLE_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/ansible/"
     }
@@ -89,7 +89,7 @@ pipeline {
                 expression { params.ACTION == 'apply' }
             }
             steps {
-                sh "cd ${env.ANSIBLE_WORKSPACE} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i playbook/aws_ec2.yml playbook/my_playbook.yml --tags version_specific -e 'license=${env.LICENSE_KEY}' "
+                sh "cd ${env.ANSIBLE_WORKSPACE} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i playbook/aws_ec2.yml playbook/my_playbook.yml --tags version_specific -e "'license=${env.LICENSE_KEY}'""
             }
         }
     }
