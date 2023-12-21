@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Select action: apply or destroy')
+    }
     environment {
         TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/terraform/"
         ANSIBLE_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/ansible/"
