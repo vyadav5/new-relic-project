@@ -4,6 +4,7 @@ pipeline {
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Select action: apply or destroy')
     }
     environment {
+        LICENSE_KEY = null
         TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/terraform/"
         ANSIBLE_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/ansible/"
     }
@@ -66,6 +67,29 @@ pipeline {
             steps {
                 // Destroy Infra
                 sh "cd ${env.TERRAFORM_WORKSPACE} && terraform destroy -auto-approve"
+            }
+        }
+        stage('Prompt for License Key') {
+            steps {
+                script {
+                    // Use input to prompt the user for the license key and mask it
+                    env.LICENSE_KEY = input(
+                        id: 'LicenseInput',
+                        message: 'Please enter your license key:',
+                        parameters: [password(name: 'LICENSE_KEY', description: 'License Key')]
+                    )
+
+                    // Print a masked message indicating that the license key has been received
+                    echo "Received license key (masked): ********"
+                }
+            }
+        }
+        stage('Install NewRelic') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+                sh "cd ${env.ANSIBLE_WORKSPACE} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i playbook/aws_ec2.yml playbook/my_playbook.yml --tags version_specific -e 'license=${env.LICENSE_KEY}' "
             }
         }
     }
