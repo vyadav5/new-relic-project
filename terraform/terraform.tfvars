@@ -24,6 +24,7 @@ image_root_device = "ebs"
 image_virt = "hvm"
 owner = "099720109477"
 key_name = "newrelic"
+key_path = "/home/ubuntu/newrelic.pem"
 
 public_secure_grp = "newrelic-public_sg"
 private_secure_grp = "newrelic-private_sg"
