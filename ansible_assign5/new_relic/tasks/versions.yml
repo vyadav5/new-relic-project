@@ -1,0 +1,114 @@
+---
+- name: Install wget
+  yum:
+    name: wget
+    state: present
+  when: ansible_distribution == 'CentOS'
+  tags:
+    - centos_version
+
+- name: Update package list
+  apt:
+    update_cache: yes
+  when: ansible_distribution in ['Ubuntu', 'Debian']
+  tags:
+    - version_specific
+
+# - name: Install Perl package
+#   apt:
+#     name: perl
+#     state: present
+#   when: ansible_distribution in ['Ubuntu', 'Debian']
+#   tags:
+#     - version_specific
+
+- name: Retrieve Home Directory
+  set_fact:
+    home_directory: "{{ '/home/' + ansible_ssh_user }}"
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Download New Relic Infrastructure Agent
+  shell: "wget https://download.newrelic.com/infrastructure_agent/binaries/linux/{{ arch }}/newrelic-infra_linux_{{ version }}_{{ arch }}.tar.gz"
+  args:
+    creates: "{{ home_directory }}/newrelic-infra_linux_{{ version }}_{{ arch }}.tar.gz"
+  tags:
+    - version_specific
+    - centos_version
+
+# - name: Print HOME directory
+#   debug:
+#     var: home_directory 
+#   tags:
+#     - version_specific
+#     - centos_version
+
+- name: Extract New Relic Infrastructure Agent (Ubuntu)
+  unarchive:
+    src: "{{ home_directory }}/newrelic-infra_linux_{{ version }}_{{ arch }}.tar.gz"
+    remote_src: yes
+    dest: "{{ home_directory }}"
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Modify config_defaults.sh
+  replace:
+    path: "{{ home_directory }}/newrelic-infra/config_defaults.sh"
+    regexp: '^#license_key=""'
+    replace: 'license_key="{{ license }}"'
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Run New Relic Infrastructure Installer
+  command: sudo ./installer.sh
+  args:
+    chdir: "{{ home_directory }}/newrelic-infra"
+  become_method: sudo
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Check New Relic version
+  command: "/usr/local/bin/newrelic-infra --version"
+  register: newrelic_version_output
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Display New Relic version
+  debug:
+    var: newrelic_version_output.stdout_lines
+  when: newrelic_version_output.rc == 0
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Get New Relic Infrastructure Agent status
+  command: systemctl is-active newrelic-infra
+  register: nr_status
+  changed_when: false
+  failed_when: false
+  tags:
+    - version_specific
+    - centos_version
+
+- name: Display New Relic Infrastructure Agent status
+  debug:
+    msg: "New Relic Infrastructure Agent is {{ nr_status.stdout }}"
+  tags:
+    - version_specific
+    - centos_version
+
+
+
+
+
+
+
+
+
+
+  
