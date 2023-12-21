@@ -1,0 +1,11 @@
+---
+- hosts: ubuntu
+  become: yes
+  gather_facts: yes 
+ 
+  roles:
+    - new_relic      #includes role 
+
+
+
+

@@ -1,0 +1,14 @@
+---
+- name: Include version_specific tasks
+  import_tasks: versions.yml
+  tags: 
+    - version_specific
+    - centos_version
+
+- name: Include version_specific tasks
+  import_tasks: uninstall.yml
+  tags: 
+    - uninstall
+
+
+

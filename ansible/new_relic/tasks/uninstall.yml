@@ -1,0 +1,62 @@
+---
+- name: Stop New Relic Infrastructure Agent service
+  systemd:
+    name: newrelic-infra
+    state: stopped
+  ignore_errors: yes
+  tags: 
+    - uninstall
+
+- name: Remove New Relic Infrastructure Agent binary
+  file:
+    path: /usr/local/bin/newrelic-infra
+    state: absent
+  tags: 
+    - uninstall
+
+- name: Remove agent configuration files
+  file:
+    path: /etc/newrelic-infra
+    state: absent
+  tags: 
+    - uninstall
+
+- name: Remove agent working directory
+  file:
+    path: /var/db/newrelic-infra
+    state: absent
+  tags: 
+    - uninstall
+
+- name: Remove systemd service unit
+  systemd:
+    name: newrelic-infra
+    enabled: no
+  tags: 
+    - uninstall
+
+- name: Reload systemd service manager
+  command: systemctl daemon-reload
+  tags: 
+    - uninstall
+
+- name: Remove agent log files
+  file:
+    path: /var/log/newrelic-infra
+    state: absent
+  tags: 
+    - uninstall
+
+- name: Get New Relic Infrastructure Agent status
+  command: systemctl is-active newrelic-infra
+  register: nr_status
+  changed_when: false
+  failed_when: false
+  tags:
+    - uninstall
+
+- name: Display New Relic Infrastructure Agent status
+  debug:
+    msg: "New Relic Infrastructure Agent is {{ nr_status.stdout }}"
+  tags:
+    - uninstall
