@@ -68,5 +68,5 @@ resource "aws_key_pair" "key_pair" {
 # download key in system
 resource "local_file" "private_key" {
   content = tls_private_key.rsa_4096.private_key_pem
-  filename = var.key_name
+  filename = var.key_path
 }
