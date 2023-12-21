@@ -118,6 +118,11 @@ variable key_name {
     description = "key pair name"
 }
 
+variable key_path {
+    type = string
+    description = "key pair path"
+}
+
 # variable key_path {
 #     type = string
 #     description = "key pair path"
