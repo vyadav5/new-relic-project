@@ -2,7 +2,7 @@
 - name: Include version_specific tasks
   import_tasks: versions.yml
   tags: 
-    - version_specific
+    - version_specific   #debian and ubuntu
     - centos_version
 
 - name: Include version_specific tasks
