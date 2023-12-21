@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/new-relic-project/terraform/"
+        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/terraform/"
     }
     stages {
         stage('Clone Repo') {
