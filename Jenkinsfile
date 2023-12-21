@@ -26,6 +26,7 @@ pipeline {
                     dir(TERRAFORM_WORKSPACE) {
                         sh 'terraform init'
                     }
+                }
             }
         }
     }
