@@ -14,14 +14,6 @@
   tags:
     - version_specific
 
-# - name: Install Perl package
-#   apt:
-#     name: perl
-#     state: present
-#   when: ansible_distribution in ['Ubuntu', 'Debian']
-#   tags:
-#     - version_specific
-
 - name: Retrieve Home Directory
   set_fact:
     home_directory: "{{ '/home/' + ansible_ssh_user }}"
