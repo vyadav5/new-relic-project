@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  remote_user: jenkins
   become: yes
   gather_facts: yes 
  
