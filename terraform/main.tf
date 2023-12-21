@@ -40,6 +40,7 @@ module "servers" {
   private_instance_tag     = var.private_instance_tag
   key_name                 = var.key_name
   instance_names           = var.instance_names
+  key_path                 = var.key_path
 
   # Security groups
   private_secure_grp       = var.private_secure_grp
