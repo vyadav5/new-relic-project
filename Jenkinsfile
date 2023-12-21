@@ -43,10 +43,29 @@ pipeline {
                 sh """
                     cd ${env.TERRAFORM_WORKSPACE}
                     terraform apply -auto-approve
-                    sudo cp ${env.TERRAFORM_WORKSPACE}/newrelic.pem ${env.ANSIBLE_WORKSPACE}/playbook/newrelic.pem
-                    sudo chown jenkins:jenkins ${env.ANSIBLE_WORKSPACE}/pgsql.pem
+                    sudo cp ${env.TERRAFORM_WORKSPACE}/newrelic.pem ${env.ANSIBLE_WORKSPACE}playbook/newrelic.pem
+                    sudo chown jenkins:jenkins ${env.ANSIBLE_WORKSPACE}/newrelic.pem
                     sudo chmod 400 ${env.ANSIBLE_WORKSPACE}/newrelic.pem
                 """       
+            }
+        }
+        stage('Approval for Destroy') {
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            steps {
+                // Prompt for approval before destroying resources
+                input "Do you want to Terraform Destroy?"
+            }
+        }
+
+        stage('Terraform Destroy') {
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            steps {
+                // Destroy Infra
+                sh "cd ${env.TERRAFORM_WORKSPACE} && terraform destroy -auto-approve"
             }
         }
     }
