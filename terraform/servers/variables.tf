@@ -44,6 +44,11 @@ variable key_name {
     description = "key pair name"
 }
 
+variable key_path {
+    type = string
+    description = "key pair path"
+}
+
 #SECURITY GROUP VARIABLES
 variable public_secure_grp {
     type = string
