@@ -23,7 +23,7 @@ image_name = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
 image_root_device = "ebs"
 image_virt = "hvm"
 owner = "099720109477"
-key_name = "newrelic.pem"
+key_name = "newrelic"
 
 public_secure_grp = "newrelic-public_sg"
 private_secure_grp = "newrelic-private_sg"
