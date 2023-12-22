@@ -100,6 +100,12 @@ pipeline {
             }
             steps {
                 sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=version_specific -e \"license=${env.LICENSE_KEY}\""
+
+                emailext(
+                    subject: 'NewRelic Installation Completed',
+                    body: '"NewRelic Infrastructure Agent has been successfully installed !."',
+                    to: 'vidhiyadav389@gmail.com'
+                )
             }
         }
         // Stage 10: Prompt the user to Uninstall NewRelic
