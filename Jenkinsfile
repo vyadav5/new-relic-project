@@ -10,23 +10,25 @@ pipeline {
         ANSIBLE_WORKSPACE = "/var/lib/jenkins/workspace/NewRelic/ansible/"
     }
     stages {
+        // Stage 1: Clone Git Repository
         stage('Clone Repo') {
             steps {
                 git branch: 'main', credentialsId: 'newrelic-jenkins', url: 'https://github.com/vyadav5/new-relic-project.git'
             }
         }
+        // Stage 2: Initialize Terraform
         stage('Terraform Init') {
             steps {
-                // Initialize Terraform
                 sh "cd ${env.TERRAFORM_WORKSPACE} && terraform init"
             }
         }
+        // Stage 3: Run Terraform Plan
         stage('Terraform Plan') {
             steps {
-                // Run Terraform plan
                 sh "cd ${env.TERRAFORM_WORKSPACE} && terraform plan"
             }
         }
+        // Stage 4: Asking for Approval to Apply
         stage('Approval For Apply') {
             when {
                 expression { params.ACTION == 'apply' }
@@ -36,6 +38,7 @@ pipeline {
                 input "Do you want to apply Terraform changes?"
             }
         }
+        // Stage 5: Apply Terraform Changes
         stage('Terraform Apply') {
             when {
                 expression { params.ACTION == 'apply' }
@@ -51,6 +54,7 @@ pipeline {
                 """       
             }
         }
+        // Stage 6: Asking for Approval to Destroy
         stage('Approval for Destroy') {
             when {
                 expression { params.ACTION == 'destroy' }
@@ -60,7 +64,7 @@ pipeline {
                 input "Do you want to Terraform Destroy?"
             }
         }
-
+        // Stage 7: Destroy Infra
         stage('Terraform Destroy') {
             when {
                 expression { params.ACTION == 'destroy' }
@@ -70,6 +74,7 @@ pipeline {
                 sh "cd ${env.TERRAFORM_WORKSPACE} && terraform destroy -auto-approve"
             }
         }
+        // Stage 8: Prompt for License Key
         stage('Prompt for License Key') {
             steps {
                 script {
@@ -85,6 +90,7 @@ pipeline {
                 }
             }
         }
+        // Stage 9: Install NewRelic on instances
         stage('Install NewRelic') {
             when {
                 expression { params.ACTION == 'apply' }
@@ -93,6 +99,7 @@ pipeline {
                 sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=version_specific -e \"license=${env.LICENSE_KEY}\""
             }
         }
+        // Stage 10: Prompt the user to Uninstall NewRelic
         stage('Uninstall NewRelic') {
             when {
                 expression { params.UNINSTALL == 'yes' }
