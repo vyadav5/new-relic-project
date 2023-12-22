@@ -89,7 +89,20 @@ pipeline {
                 expression { params.ACTION == 'apply' }
             }
             steps {
-                sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags version_specific -e \"license=${env.LICENSE_KEY}\""
+                sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=version_specific -e \"license=${env.LICENSE_KEY}\""
+            }
+        }
+        stage('Uninstall NewRelic') {
+            when {
+                expression { params.UNINSTALL == 'yes' }
+            }
+            steps {
+                input "Do you want to uninstall NewRelic?"
+                script {
+                    
+                    echo "Uninstalling NewRelic..."
+                    sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=uninstall
+                }
             }
         }
     }
