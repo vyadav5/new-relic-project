@@ -89,7 +89,7 @@ pipeline {
                 expression { params.ACTION == 'apply' }
             }
             steps {
-                sh "cd ${env.ANSIBLE_WORKSPACE} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i playbook/aws_ec2.yml playbook/my_playbook.yml --tags version_specific -e \"license=${env.LICENSE_KEY}\""
+                sh "cd ${env.ANSIBLE_WORKSPACE} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook my_playbook.yml --tags version_specific -e \"license=${env.LICENSE_KEY}\""
             }
         }
     }
