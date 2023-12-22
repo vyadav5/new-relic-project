@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: newrelic
   # remote_user: jenkins
   become: yes
   gather_facts: yes 
