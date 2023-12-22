@@ -2,6 +2,7 @@ pipeline {
     agent any
     parameters {
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Select action: apply or destroy')
+        choice(name: 'UNINSTALL', choices: ['yes', 'no'], description: 'Select: yes or no')
     }
     environment {
         // LICENSE_KEY = null
