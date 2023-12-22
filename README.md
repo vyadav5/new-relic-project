@@ -26,7 +26,7 @@ Ensure you have the following prerequisites in place before using the DevOps pro
 - **Jenkins:** Ensure Jenkins is installed and configured with appropriate permissions.
 - **Terraform:** Install Terraform to manage infrastructure.
 - **Ansible:** Install Ansible for configuration management.
-- **New Relic Account:** Obtain API key and necessary credentials for New Relic.
+- **New Relic Account:** Obtain necessary credentials like API key for New Relic.
 
 ### Dynamic Inventory Prerequisites
 
