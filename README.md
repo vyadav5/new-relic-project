@@ -18,3 +18,22 @@ Supports the installation of different versions of the New Relic Infrastructure 
 
 ### 5) Cross-Platform Compatibility: 
 Ensures compatibility across Ubuntu, Debian, and CentOS distributions.
+
+## Prerequisites
+
+Ensure you have the following prerequisites in place before using the DevOps project:
+
+- **Jenkins:** Ensure Jenkins is installed and configured with appropriate permissions.
+- **Terraform:** Install Terraform to manage infrastructure.
+- **Ansible:** Install Ansible for configuration management.
+- **New Relic Account:** Obtain API key and necessary credentials for New Relic.
+
+### Dynamic Inventory Prerequisites
+
+For dynamic inventory, additional prerequisites are required:
+
+- **IAM Role:** Ensure the instance where you run dynamic inventory has an IAM role with the necessary permissions to access AWS resources.
+- **boto3:** Install the `boto3` Python library, which is required for dynamic inventory scripts.
+
+  ```bash
+  pip install boto3
