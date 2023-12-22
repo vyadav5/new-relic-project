@@ -102,7 +102,7 @@ pipeline {
                 script {
                     
                     echo "Uninstalling NewRelic..."
-                    sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=uninstall
+                    sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=uninstall"
                 }
             }
         }
