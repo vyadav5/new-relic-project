@@ -1,9 +1,9 @@
 ---
 plugin: aws_ec2
-#aws_profile: default
 regions:
   - eu-north-1
 
+
 include_filters:
-  - tag:tool:
-      - 'newrelic'
+- tag:tool:   
+    - 'newrelic'
