@@ -76,6 +76,9 @@ pipeline {
         }
         // Stage 8: Prompt for License Key
         stage('Prompt for License Key') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
             steps {
                 script {
                     // Use input to prompt the user for the license key and mask it
