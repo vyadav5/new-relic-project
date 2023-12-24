@@ -44,14 +44,20 @@ pipeline {
                 expression { params.ACTION == 'apply' }
             }
             steps {
+                script {
+                    try {
                 // Run Terraform apply
-                sh """
-                    cd ${env.TERRAFORM_WORKSPACE}
-                    terraform apply -auto-approve          
-                    sudo cp ${env.TERRAFORM_WORKSPACE}newrelic.pem ${env.ANSIBLE_WORKSPACE}newrelic.pem
-                    sudo chown jenkins:jenkins ${env.ANSIBLE_WORKSPACE}newrelic.pem
-                    sudo chmod 400 ${env.ANSIBLE_WORKSPACE}newrelic.pem
-                """       
+                        sh """
+                            cd ${env.TERRAFORM_WORKSPACE}
+                            terraform apply -auto-approve          
+                            sudo cp ${env.TERRAFORM_WORKSPACE}newrelic.pem ${env.ANSIBLE_WORKSPACE}newrelic.pem
+                            sudo chown jenkins:jenkins ${env.ANSIBLE_WORKSPACE}newrelic.pem
+                            sudo chmod 400 ${env.ANSIBLE_WORKSPACE}newrelic.pem
+                        """
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("Failed to apply Terraform changes: ${e.message}")
+                    }
             }
         }
         // Stage 6: Asking for Approval to Destroy
