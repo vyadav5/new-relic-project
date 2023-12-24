@@ -126,6 +126,12 @@ pipeline {
                     
                     echo "Uninstalling NewRelic..."
                     sh "cd ${env.ANSIBLE_WORKSPACE} && ansible-playbook my_playbook.yml --tags=uninstall"
+
+                    emailext(
+                    subject: 'NewRelic Uninstalled',
+                    body: '"NewRelic Infrastructure Agent has been uninstalled !."',
+                    to: 'vidhiyadav389@gmail.com'
+                )
                 }
             }
         }
