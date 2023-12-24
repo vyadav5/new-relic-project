@@ -58,6 +58,7 @@ pipeline {
                         currentBuild.result = 'FAILURE'
                         error("Failed to apply Terraform changes: ${e.message}")
                     }
+                }
             }
         }
         // Stage 6: Asking for Approval to Destroy
